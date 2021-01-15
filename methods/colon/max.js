@@ -1,5 +1,9 @@
 module.exports = ({ data, arg }) => {
-  if (typeof data !== 'string' || typeof data !== 'number') {
+  if (
+    typeof data !== 'string' &&
+    typeof data !== 'number' &&
+    !Array.isArray(data)
+  ) {
     return 'Max[TypeError]: Type can only be string, number, array';
   }
 
