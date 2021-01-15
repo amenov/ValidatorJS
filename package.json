@@ -1,0 +1,20 @@
+{
+  "name": "amenov.validator",
+  "version": "1.0.0",
+  "description": "",
+  "main": "Validator.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/amenov/ValidatorJS.git"
+  },
+  "author": "Amenov Abdulsalam <amenov.abdulsalam@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/amenov/ValidatorJS/issues"
+  },
+  "homepage": "https://github.com/amenov/ValidatorJS#readme",
+  "dependencies": {}
+}

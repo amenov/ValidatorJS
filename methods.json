@@ -1,0 +1,27 @@
+{
+  "unique": "colon/async/unique",
+  "find": "colon/async/find",
+  "findRaw": "colon/async/findRaw",
+
+  "as": "colon/as",
+  "between": "colon/between",
+  "length": "colon/length",
+  "max": "colon/max",
+  "min": "colon/min",
+
+  "email": "regexes/email",
+
+  "ifThereIs": "skip/colon/if-there-is",
+  "allowEmpty": "skip/allow-empty",
+  "allowFalse": "skip/allow-false",
+  "allowNull": "skip/allow-null",
+  "allowZero": "skip/allow-zero",
+  "ifExists": "skip/if-exists",
+
+  "array": "types/array",
+  "boolean": "types/boolean",
+  "number": "types/number",
+  "string": "types/string",
+
+  "required": "required"
+}
