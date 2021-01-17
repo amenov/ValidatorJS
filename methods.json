@@ -10,6 +10,7 @@
   "min": "colon/min",
 
   "email": "regexes/email",
+  "tel": "regexes/tel",
 
   "ifThereIs": "skip/colon/if-there-is",
   "allowEmpty": "skip/allow-empty",

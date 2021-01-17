@@ -16,5 +16,7 @@
     "url": "https://github.com/amenov/ValidatorJS/issues"
   },
   "homepage": "https://github.com/amenov/ValidatorJS#readme",
-  "dependencies": {}
+  "dependencies": {
+    "libphonenumber-js": "^1.9.8"
+  }
 }
