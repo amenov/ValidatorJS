@@ -1,5 +1,5 @@
-module.exports = ({ data }) => {
-  if (typeof data !== 'string') {
+module.exports = ({ requestValue }) => {
+  if (typeof requestValue !== 'string') {
     return 'This field must be a "string"';
   }
 };

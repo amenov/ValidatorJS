@@ -1,8 +1,8 @@
-module.exports = ({ data }) => {
+module.exports = ({ requestValue: value }) => {
   if (
-    typeof data !== 'string' ||
-    data.trim() === '' ||
-    !data.match(
+    typeof value !== 'string' ||
+    value.trim() === '' ||
+    !value.match(
       /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
     )
   ) {

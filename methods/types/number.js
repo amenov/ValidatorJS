@@ -1,5 +1,5 @@
-module.exports = ({ data }) => {
-  if (typeof data !== 'number') {
+module.exports = ({ requestValue }) => {
+  if (typeof requestValue !== 'number') {
     return 'This field must be a "number"';
   }
 };

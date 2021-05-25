@@ -22,6 +22,7 @@
   "array": "types/array",
   "boolean": "types/boolean",
   "number": "types/number",
+  "object": "types/object",
   "string": "types/string",
 
   "required": "required"

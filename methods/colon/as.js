@@ -1,5 +1,5 @@
-module.exports = ({ data, arg, request, field }) => {
-  if (data !== request[arg]) {
-    return `The value of the field "${field}" does not match the value of the field "${arg}"`;
+module.exports = ({ requestValue, ruleArg: requestKey, request, key }) => {
+  if (requestValue !== request[requestKey]) {
+    return `The value of the field "${key}" does not match the value of the field "${requestKey}"`;
   }
 };

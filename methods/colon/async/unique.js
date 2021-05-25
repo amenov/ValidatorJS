@@ -1,12 +1,17 @@
-module.exports = async ({ arg, field, data, options: { sequelize } }) => {
+module.exports = async ({
+  ruleArg,
+  key,
+  requestValue,
+  options: { sequelize },
+}) => {
   if (sequelize) {
-    const [table, tableColumn] = arg.split('-');
+    const [table, tableColumn] = ruleArg.split('-');
 
     try {
       const [result] = await sequelize.query(
         `SELECT * FROM ${table} WHERE ${
-          tableColumn ? tableColumn : field
-        } = "${data}"`
+          tableColumn ? tableColumn : key
+        } = "${requestValue}"`
       );
 
       if (result[0]) {

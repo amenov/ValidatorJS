@@ -1,16 +1,15 @@
-module.exports = ({ data }) => {
-  if (typeof data === 'string') {
-    data = data.trim();
+module.exports = ({ requestValue: value }) => {
+  if (typeof value === 'string') {
+    value = value.trim();
   }
 
-  const conditions = [
-    'data === undefined',
-    'data === null',
-    'data === ""',
-    'data.length === 0',
-  ];
-
-  if (eval(conditions.join('||'))) {
+  if (
+    value === undefined ||
+    value === null ||
+    value === '' ||
+    value.length === 0 ||
+    (value.__proto__ === Object.prototype && !Object.keys(value).length)
+  ) {
     return 'Required field';
   }
 };

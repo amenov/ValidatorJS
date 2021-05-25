@@ -1,7 +1,5 @@
-const methods = require('./methods.json');
-
 module.exports = class Validator {
-  constructor(request, rules, options) {
+  constructor(request, rules, options = {}) {
     this.request = request;
     this.rules = rules;
     this.options = options;
@@ -9,28 +7,31 @@ module.exports = class Validator {
 
   errors = {};
 
-  get formattedRules() {
+  get #formattedRules() {
     const formattedRules = [];
 
-    for (const field in this.rules) {
-      const fieldValue = this.rules[field];
+    for (const key in this.rules) {
+      const value = this.rules[key];
 
-      if (fieldValue && typeof fieldValue === 'string') {
-        const splitRules = fieldValue.split('|');
-
+      if (value && typeof value === 'string') {
         const rules = [];
 
-        for (const rule of splitRules) {
+        for (const rule of value.split('|')) {
+          const obj = {};
+
           if (rule.includes(':')) {
             const [name, arg] = rule.split(':');
 
-            rules.push({ name, arg });
+            obj['name'] = name;
+            obj['arg'] = arg;
           } else {
-            rules.push({ name: rule });
+            obj['name'] = rule;
           }
+
+          rules.push(obj);
         }
 
-        formattedRules.push({ field, rules });
+        formattedRules.push({ key, rules });
       }
     }
 
@@ -41,30 +42,31 @@ module.exports = class Validator {
     return !!Object.keys(this.errors).length;
   }
 
-  getRuleHandler(ruleName) {
-    const handler = require('./methods/' + methods[ruleName]);
+  #getRuleHandler(name) {
+    const methods = require('./methods.json');
+    const handler = require('./methods/' + methods[name]);
 
     return handler;
   }
 
   async fails() {
-    for (const { field, rules } of this.formattedRules) {
+    for (const { key, rules } of this.#formattedRules) {
       for (const rule of rules) {
         try {
-          const ruleHandler = this.getRuleHandler(rule.name);
+          const ruleHandler = this.#getRuleHandler(rule.name);
 
           const message = await ruleHandler({
             request: this.request,
-            field,
-            data: this.request[field],
-            arg: rule.arg,
+            requestKey: key,
+            requestValue: this.request[key],
+            ruleArg: rule.arg,
             options: this.options,
           });
 
           if (message === 'skip') {
             break;
           } else if (message) {
-            this.errors[field] = message;
+            this.errors[key] = message;
 
             break;
           }

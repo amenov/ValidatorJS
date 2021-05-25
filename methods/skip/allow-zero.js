@@ -1,5 +1,5 @@
-module.exports = ({ data }) => {
-  if (data === 0) {
+module.exports = ({ requestValue }) => {
+  if (requestValue === 0) {
     return 'skip';
   }
 };

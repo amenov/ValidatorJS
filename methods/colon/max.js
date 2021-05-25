@@ -1,19 +1,19 @@
-module.exports = ({ data, arg }) => {
+module.exports = ({ requestValue: value, ruleArg: num }) => {
   if (
-    typeof data !== 'string' &&
-    typeof data !== 'number' &&
-    !Array.isArray(data)
+    typeof value !== 'string' &&
+    typeof value !== 'number' &&
+    !Array.isArray(value)
   ) {
     return 'Max[TypeError]: Type can only be string, number, array';
   }
 
-  const conditions = [
-    'typeof data === "string" && data.length <= arg',
-    'typeof data === "number" && data <= arg',
-    'Array.isArray(data) && data.length <= arg',
-  ];
-
-  if (!eval(conditions.join('||'))) {
-    return `Maximum: ${arg}`;
+  if (
+    !(
+      (typeof value === 'string' && value.length <= num) ||
+      (typeof value === 'number' && value <= num) ||
+      (Array.isArray(value) && value.length <= num)
+    )
+  ) {
+    return `Maximum: ${num}`;
   }
 };

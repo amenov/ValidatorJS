@@ -1,5 +1,5 @@
-module.exports = ({ data, arg }) => {
-  if (data.length !== +arg) {
-    return `The string length should be: ${arg}`;
+module.exports = ({ requestValue, ruleArg: length }) => {
+  if (requestValue.length !== +length) {
+    return `The string length should be: ${length}`;
   }
 };

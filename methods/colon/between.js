@@ -1,33 +1,31 @@
-module.exports = ({ data, arg }) => {
-  const [leftOperand, rightOperand] = arg.split('-');
+module.exports = ({ requestValue: value, ruleArg }) => {
+  const [leftNum, rightNum] = ruleArg.split('-');
 
   if (
-    typeof data !== 'string' &&
-    typeof data !== 'number' &&
-    !Array.isArray(data)
+    typeof value !== 'string' &&
+    typeof value !== 'number' &&
+    !Array.isArray(value)
   ) {
     return 'Between[TypeError]: Type can only be string, number, array';
   }
 
-  const leftOperandConditions = [
-    'typeof data === "string" && data.length >= leftOperand',
-    'typeof data === "number" && data >= leftOperand',
-    'Array.isArray(data) && data.length >= leftOperand',
-  ];
-
-  const rightOperandConditions = [
-    'typeof data === "string" && data.length <= rightOperand',
-    'typeof data === "number" && data <= rightOperand',
-    'Array.isArray(data) && data.length <= rightOperand',
-  ];
-
-  const check = (conditions) => !eval(conditions.join('||'));
-
-  if (check(leftOperandConditions)) {
-    return `Minimum: ${leftOperand}`;
+  if (
+    !(
+      (typeof value === 'string' && value.length >= leftNum) ||
+      (typeof value === 'number' && value >= leftNum) ||
+      (Array.isArray(value) && value.length >= leftNum)
+    )
+  ) {
+    return `Minimum: ${leftNum}`;
   }
 
-  if (check(rightOperandConditions)) {
-    return `Maximum: ${rightOperand}`;
+  if (
+    !(
+      (typeof value === 'string' && value.length <= rightNum) ||
+      (typeof value === 'number' && value <= rightNum) ||
+      (Array.isArray(value) && value.length <= rightNum)
+    )
+  ) {
+    return `Maximum: ${rightNum}`;
   }
 };
