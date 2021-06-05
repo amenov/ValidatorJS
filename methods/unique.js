@@ -1,6 +1,6 @@
 module.exports = async ({
   ruleArg,
-  key,
+  requestKey,
   requestValue,
   options: { sequelize }
 }) => {
@@ -10,7 +10,7 @@ module.exports = async ({
     try {
       const [result] = await sequelize.query(
         `SELECT * FROM ${table} WHERE ${
-          tableColumn ? tableColumn : key
+          tableColumn ? tableColumn : requestKey
         } = "${requestValue}"`
       )
 
