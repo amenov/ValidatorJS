@@ -3,11 +3,11 @@ const Validator = require(__dirname + '/../../Validator')
 module.exports = async ({
   rules,
   requestKey,
-  requestValue: arr,
+  requestValue,
   ruleArg: type,
   options
 }) => {
-  if (!Array.isArray(arr)) {
+  if (!Array.isArray(requestValue)) {
     return 'This field must be a "array"'
   }
 
@@ -20,7 +20,7 @@ module.exports = async ({
 
     let index = 0
 
-    for (const item of arr) {
+    for (const item of requestValue) {
       if (
         (type === 'object' && item.__proto__ !== Object.prototype) ||
         (type === 'array' && !Array.isArray(item)) ||
