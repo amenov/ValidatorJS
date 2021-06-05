@@ -58,8 +58,8 @@ module.exports = class Validator {
   }
 
   #getRuleHandler(name) {
-    const methods = require('./methods.json')
-    const handler = require('./methods/' + methods[name])
+    const methods = require(__dirname + '/methods.json')
+    const handler = require(__dirname + '/methods/' + methods[name])
 
     return handler
   }
