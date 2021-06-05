@@ -1,4 +1,4 @@
-const Validator = require(__dirname + '/Validator')
+const Validator = require(__dirname + '/../Validator')
 
 module.exports = async ({ rules, requestKey, requestValue, options }) => {
   if (requestValue?.__proto__ !== Object.prototype) {
