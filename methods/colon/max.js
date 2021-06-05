@@ -4,7 +4,7 @@ module.exports = ({ requestValue: value, ruleArg: num }) => {
     typeof value !== 'number' &&
     !Array.isArray(value)
   ) {
-    return 'Max[TypeError]: Type can only be string, number, array';
+    return 'Max[TypeError]: Type can only be string, number, array'
   }
 
   if (
@@ -14,6 +14,6 @@ module.exports = ({ requestValue: value, ruleArg: num }) => {
       (Array.isArray(value) && value.length <= num)
     )
   ) {
-    return `Maximum: ${num}`;
+    return `Maximum: ${num}`
   }
-};
+}

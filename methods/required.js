@@ -1,6 +1,6 @@
 module.exports = ({ requestValue: value }) => {
   if (typeof value === 'string') {
-    value = value.trim();
+    value = value.trim()
   }
 
   if (
@@ -10,6 +10,6 @@ module.exports = ({ requestValue: value }) => {
     value.length === 0 ||
     (value.__proto__ === Object.prototype && !Object.keys(value).length)
   ) {
-    return 'Required field';
+    return 'Required field'
   }
-};
+}

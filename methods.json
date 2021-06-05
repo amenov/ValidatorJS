@@ -13,6 +13,7 @@
   "tel": "regexes/tel",
 
   "ifThereIs": "skip/colon/if-there-is",
+  "allowEmptyObject": "skip/allow-empty-object",
   "allowEmpty": "skip/allow-empty",
   "allowFalse": "skip/allow-false",
   "allowNull": "skip/allow-null",

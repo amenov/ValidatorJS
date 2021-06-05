@@ -1,12 +1,12 @@
 module.exports = ({ requestValue: value, ruleArg }) => {
-  const [leftNum, rightNum] = ruleArg.split('-');
+  const [leftNum, rightNum] = ruleArg.split('-')
 
   if (
     typeof value !== 'string' &&
     typeof value !== 'number' &&
     !Array.isArray(value)
   ) {
-    return 'Between[TypeError]: Type can only be string, number, array';
+    return 'Between[TypeError]: Type can only be string, number, array'
   }
 
   if (
@@ -16,7 +16,7 @@ module.exports = ({ requestValue: value, ruleArg }) => {
       (Array.isArray(value) && value.length >= leftNum)
     )
   ) {
-    return `Minimum: ${leftNum}`;
+    return `Minimum: ${leftNum}`
   }
 
   if (
@@ -26,6 +26,6 @@ module.exports = ({ requestValue: value, ruleArg }) => {
       (Array.isArray(value) && value.length <= rightNum)
     )
   ) {
-    return `Maximum: ${rightNum}`;
+    return `Maximum: ${rightNum}`
   }
-};
+}

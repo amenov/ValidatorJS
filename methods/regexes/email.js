@@ -6,6 +6,6 @@ module.exports = ({ requestValue: value }) => {
       /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
     )
   ) {
-    return 'Invalid email';
+    return 'Invalid email'
   }
-};
+}

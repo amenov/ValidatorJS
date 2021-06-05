@@ -1,4 +1,4 @@
-const Validator = require('./Validator');
+const Validator = require('./Validator')
 
 const request = {
   name: 'Abdulsalam',
@@ -21,7 +21,9 @@ const request = {
   betweenNum: 5,
   betweenStr: 'Hello',
   betweenArr: ['1', '2', '3'],
-};
+
+  persons: [{ name: 'Абдулсалам' }, { name: 'Анжела' }, { name: 'Алена' }]
+}
 
 const rules = {
   name: 'required|string',
@@ -44,14 +46,20 @@ const rules = {
   betweenNum: 'number|between:1-5',
   betweenStr: 'string|between:1-5',
   betweenArr: 'array:string|between:1-3',
-};
 
-const validation = new Validator(request, rules);
+  persons: 'array:object',
 
-(async () => {
-  await validation.fails();
+  '$persons:object': {
+    name: 'string'
+  }
+}
+
+const validation = new Validator(request, rules)
+
+;(async () => {
+  await validation.fails()
 
   if (validation.failed) {
-    console.log(validation.errors);
+    console.log(validation.errors)
   }
-})();
+})()
