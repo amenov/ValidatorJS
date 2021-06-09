@@ -1,11 +1,11 @@
-module.exports = class Validator {
+class Validator {
   constructor(request, rules, options = {}) {
     this.request = request
     this.rules = rules
     this.options = options
-  }
 
-  errors = {}
+    this.errors = {}
+  }
 
   get #formattedRules() {
     const formattedRules = []
@@ -95,3 +95,5 @@ module.exports = class Validator {
     return this.failed
   }
 }
+
+module.exports = Validator

@@ -1,8 +1,12 @@
 const Validator = require(__dirname + '/Validator')
 
-const request = {}
+const request = {
+  name: ''
+}
 
-const rules = {}
+const rules = {
+  name: 'required'
+}
 
 const validation = new Validator(request, rules)
 
