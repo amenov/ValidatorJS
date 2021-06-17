@@ -1,11 +1,17 @@
-module.exports = ({ requestValue: value, ruleArg: num }) => {
+module.exports = ({
+  requestValue: value,
+  ruleArg: num,
+  errorMessage,
+  errorMessagesWrapper
+}) => {
+  errorMessage = errorMessagesWrapper(errorMessage).emw1()
+
   if (
     typeof value !== 'string' &&
     typeof value !== 'number' &&
     !Array.isArray(value)
-  ) {
-    return 'Max[TypeError]: Type can only be string, number, array'
-  }
+  )
+    return errorMessage.typeError
 
   if (
     !(
@@ -13,7 +19,6 @@ module.exports = ({ requestValue: value, ruleArg: num }) => {
       (typeof value === 'number' && value <= num) ||
       (Array.isArray(value) && value.length <= num)
     )
-  ) {
-    return `Maximum: ${num}`
-  }
+  )
+    return errorMessage.main(num)
 }

@@ -2,6 +2,8 @@ module.exports = async ({
   ruleArg,
   requestKey,
   requestValue,
+  errorMessage,
+  errorMessagesWrapper,
   options: { sequelize }
 }) => {
   if (sequelize) {
@@ -15,7 +17,7 @@ module.exports = async ({
       )
 
       if (result[0]) {
-        return 'The value for this field must be unique'
+        return errorMessagesWrapper(errorMessage).emw2()
       }
     } catch (err) {
       console.log(err)

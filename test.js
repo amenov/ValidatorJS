@@ -1,14 +1,15 @@
 const Validator = require(__dirname + '/Validator')
 
-const request = {
-  name: ''
+const request = {}
+
+const rules = {}
+
+const options = {
+  locale: 'ru', // en || ru
+  errorMessage: {}
 }
 
-const rules = {
-  name: 'required'
-}
-
-const validation = new Validator(request, rules)
+const validation = new Validator(request, rules, options)
 
 ;(async () => {
   await validation.fails()

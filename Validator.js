@@ -1,98 +1,102 @@
 class Validator {
-  constructor(request, rules, options = {}) {
-    this.request = request
-    this.rules = rules
-    this.options = options
+  #request
+  #rules
+  #options
+  #errorMessages
+  #configRules = require(__dirname + '/config-rules')
+  #errorMessagesWrapper = require(__dirname + '/error-messages-wrapper')
 
-    this.errors = {}
+  errors = {}
+
+  constructor(request, rules, options) {
+    this.#request = request || {}
+    this.#rules = rules || {}
+    this.#options = { locale: 'en', ...(options || {}) }
+    this.#errorMessages = require(__dirname +
+      `/error-messages/${this.#options.locale}`)
   }
 
   get #formattedRules() {
     const formattedRules = []
 
-    for (const key in this.rules) {
-      if (!key.startsWith('$')) {
-        const value = this.rules[key]
+    for (const key in this.#rules) {
+      if (
+        key.startsWith('$') ||
+        this.#rules[key].__proto__ !== Object.prototype
+      )
+        continue
 
-        if (value.__proto__ === Object.prototype) {
-          Object.assign(this.rules, {
-            [key]: 'object',
-            ['$' + key]: value
-          })
-        }
-      }
+      Object.assign(this.#rules, {
+        [key]: 'object',
+        ['$' + key]: this.#rules[key]
+      })
     }
 
-    for (const key in this.rules) {
-      if (!key.startsWith('$')) {
-        const value = this.rules[key]
+    for (const key in this.#rules) {
+      if (
+        key.startsWith('$') ||
+        !(this.#rules[key] && typeof this.#rules[key] === 'string')
+      )
+        continue
 
-        if (value && typeof value === 'string') {
-          const rules = []
+      const rules = this.#rules[key].split('|').map((rule) => {
+        if (rule.includes(':')) {
+          const [name, arg] = rule.split(':')
 
-          for (const rule of value.split('|')) {
-            const obj = {}
-
-            if (rule.includes(':')) {
-              const [name, arg] = rule.split(':')
-
-              obj['name'] = name
-              obj['arg'] = arg
-            } else {
-              obj['name'] = rule
-            }
-
-            rules.push(obj)
-          }
-
-          formattedRules.push({ key, rules })
+          return { name, arg }
+        } else {
+          return { name: rule }
         }
-      }
+      })
+
+      formattedRules.push({ key, rules })
     }
 
     return formattedRules
   }
 
-  get failed() {
-    return !!Object.keys(this.errors).length
-  }
+  async #ruleHandler(name, options) {
+    try {
+      const handler = require(__dirname + '/rules/' + this.#configRules[name])
 
-  #getRuleHandler(name) {
-    const methods = require(__dirname + '/methods.json')
-    const handler = require(__dirname + '/methods/' + methods[name])
-
-    return handler
+      return await handler(options)
+    } catch (err) {
+      console.log(err)
+    }
   }
 
   async fails() {
     for (const { key, rules } of this.#formattedRules) {
       for (const rule of rules) {
-        try {
-          const ruleHandler = this.#getRuleHandler(rule.name)
+        const message = await this.#ruleHandler(rule.name, {
+          request: this.#request,
+          rules: this.#rules,
+          options: this.#options,
+          requestKey: key,
+          requestValue: this.#request[key],
+          ruleArg: rule.arg,
+          errorMessage: {
+            default: this.#errorMessages[rule.name],
+            custom: this.#options.errorMessages?.[key]?.[rule.name]
+          },
+          errorMessagesWrapper: this.#errorMessagesWrapper
+        })
 
-          const message = await ruleHandler({
-            request: this.request,
-            requestKey: key,
-            requestValue: this.request[key],
-            ruleArg: rule.arg,
-            options: this.options,
-            rules: this.rules
-          })
+        if (message === 'skip') {
+          break
+        } else if (message) {
+          this.errors[key] = message
 
-          if (message === 'skip') {
-            break
-          } else if (message) {
-            this.errors[key] = message
-
-            break
-          }
-        } catch (err) {
-          console.log(err)
+          break
         }
       }
     }
 
     return this.failed
+  }
+
+  get failed() {
+    return !!Object.keys(this.errors).length
   }
 }
 
