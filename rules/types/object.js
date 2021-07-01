@@ -1,6 +1,6 @@
 const Validator = require(__dirname + '/../../Validator')
 
-module.exports = ({
+module.exports = async ({
   rules,
   requestKey,
   requestValue,
@@ -23,7 +23,7 @@ module.exports = ({
 
   const validation = new Validator(requestValue, validationRules, options)
 
-  validation.fails()
+  await validation.fails()
 
   if (validation.failed) return validation.errors
 }

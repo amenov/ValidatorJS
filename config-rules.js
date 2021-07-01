@@ -4,9 +4,11 @@ module.exports = {
   unique: 'compute/async/unique',
   as: 'compute/as',
   between: 'compute/between',
+  if: 'compute/if',
   length: 'compute/length',
   max: 'compute/max',
   min: 'compute/min',
+  only: 'compute/only',
   required: 'compute/required',
 
   date: 'entities/date',

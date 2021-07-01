@@ -4,10 +4,7 @@ const request = {}
 
 const rules = {}
 
-const options = {
-  locale: 'ru', // en || ru
-  errorMessage: {}
-}
+const options = {}
 
 const validation = new Validator(request, rules, options)
 

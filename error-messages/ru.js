@@ -19,6 +19,7 @@ const locale = {
     typeError: 'Тип может быть только: string, number, array',
     main: (num) => `Минимум: ${num}`
   },
+  only: (values) => `Разрешено только: ${values.join(', ')}`,
   required: 'Обязательно',
 
   // ENTITIES
