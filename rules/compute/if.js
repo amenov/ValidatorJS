@@ -6,11 +6,11 @@ module.exports = ({ request, ruleArg }) => {
     ['<=', (left, right) => left <= right],
     ['<', (left, right) => left < right],
 
-    ['===', (left, right) => left === right],
-    ['==', (left, right) => left == right],
-
     ['!==', (left, right) => left !== right],
-    ['!=', (left, right) => left != right]
+    ['!=', (left, right) => left != right],
+
+    ['===', (left, right) => left === right],
+    ['==', (left, right) => left == right]
   ]
 
   for (const [operator, handler] of operators) {
