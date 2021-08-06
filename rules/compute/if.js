@@ -1,4 +1,4 @@
-module.exports = ({ request, ruleArg }) => {
+module.exports = ({ request, ruleArg: condition }) => {
   const operators = [
     ['>=', (left, right) => left >= right],
     ['>', (left, right) => left > right],
@@ -14,8 +14,8 @@ module.exports = ({ request, ruleArg }) => {
   ]
 
   for (const [operator, handler] of operators) {
-    if (ruleArg.includes(operator)) {
-      const [key, value] = ruleArg.split(operator)
+    if (condition.includes(operator)) {
+      const [key, value] = condition.split(operator)
 
       const result = handler(request[key], eval(value))
 

@@ -1,8 +1,38 @@
 module.exports = ({
+  request,
   requestValue: value,
+  ruleArg: condition,
   errorMessage,
   errorMessagesWrapper
 }) => {
+  if (condition) {
+    const operators = [
+      ['>=', (left, right) => left >= right],
+      ['>', (left, right) => left > right],
+
+      ['<=', (left, right) => left <= right],
+      ['<', (left, right) => left < right],
+
+      ['!==', (left, right) => left !== right],
+      ['!=', (left, right) => left != right],
+
+      ['===', (left, right) => left === right],
+      ['==', (left, right) => left == right]
+    ]
+
+    for (const [operator, handler] of operators) {
+      if (condition.includes(operator)) {
+        const [key, value] = condition.split(operator)
+
+        const result = handler(request[key], eval(value))
+
+        if (!result) return 'skip'
+
+        break
+      }
+    }
+  }
+
   if (typeof value === 'string') value = value.trim()
 
   if (

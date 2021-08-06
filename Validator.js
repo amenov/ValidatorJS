@@ -1,19 +1,21 @@
+const configRules = require(__dirname + '/config-rules')
+const errorMessagesWrapper = require(__dirname + '/error-messages-wrapper')
+
 class Validator {
   #request
   #rules
   #options
-  #errorMessages
-  #configRules = require(__dirname + '/config-rules')
-  #errorMessagesWrapper = require(__dirname + '/error-messages-wrapper')
+
+  constructor(request = {}, rules = {}, options = {}) {
+    this.#request = request
+    this.#rules = rules
+    this.#options = { locale: 'en', ...options }
+  }
 
   errors = {}
 
-  constructor(request, rules, options) {
-    this.#request = request || {}
-    this.#rules = rules || {}
-    this.#options = { locale: 'en', ...(options || {}) }
-    this.#errorMessages = require(__dirname +
-      `/error-messages/${this.#options.locale}`)
+  get #errorMessages() {
+    return require(`${__dirname}/error-messages/${this.#options.locale}`)
   }
 
   get #formattedRules() {
@@ -57,7 +59,7 @@ class Validator {
 
   async #ruleHandler(name, options) {
     try {
-      const handler = require(__dirname + '/rules/' + this.#configRules[name])
+      const handler = require(__dirname + '/rules/' + configRules[name])
 
       return await handler(options)
     } catch (err) {
@@ -79,7 +81,7 @@ class Validator {
             default: this.#errorMessages[rule.name],
             custom: this.#options.errorMessages?.[key]?.[rule.name]
           },
-          errorMessagesWrapper: this.#errorMessagesWrapper
+          errorMessagesWrapper
         })
 
         if (message === 'skip') {
